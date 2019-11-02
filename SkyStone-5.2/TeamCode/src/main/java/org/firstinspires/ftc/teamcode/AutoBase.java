@@ -98,6 +98,23 @@ public class AutoBase extends LinearOpMode {
         robot.rightRear.setPower(power);
     }
 
+    double computeGyroDriveCorrectionError(double inputHeading, double currentHeading) {
+
+        double error;
+        if (inputHeading * currentHeading >= 0)
+            error = currentHeading - inputHeading;
+        else {
+            if (Math.abs(inputHeading) > 90) {
+                if (inputHeading < 0)
+                    error = -((180 - currentHeading) + (180 + inputHeading));
+                else
+                    error = (180 + currentHeading) + (180 - inputHeading);
+            } else
+                error = currentHeading - inputHeading;
+        }
+
+        return error;
+    }
 
 
     @Override
