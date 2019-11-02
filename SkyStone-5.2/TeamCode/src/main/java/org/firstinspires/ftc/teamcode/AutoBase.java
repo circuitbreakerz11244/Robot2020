@@ -88,9 +88,9 @@ public class AutoBase extends LinearOpMode {
     public void drive(double power) {
 
         angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        double currentHeading = angles.firstAngle;
 
-        double initAngle      = angles.firstAngle;
-        double referenceAngle = 0.0;
+        double gyroCorrectionPwr = GYRO_CORRECTION_FACTOR * computeGyroDriveCorrectionError(targetHeading, currentHeading);
 
         robot.leftFront.setPower(power);
         robot.leftRear.setPower(power);
