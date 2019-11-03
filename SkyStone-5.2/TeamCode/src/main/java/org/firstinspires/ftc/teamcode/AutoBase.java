@@ -20,6 +20,8 @@ public class AutoBase extends LinearOpMode {
 
     Orientation angles;
 
+    final double GYRO_CORRECTION_FACTOR = 0.02;
+
     public void initialize(){
         robot.leftRear = hardwareMap.get(DcMotor.class, robot.lrName);
         robot.rightRear = hardwareMap.get(DcMotor.class, robot.rrName);
@@ -53,8 +55,6 @@ public class AutoBase extends LinearOpMode {
         telemetry.addData(">", "robot initialized");
         telemetry.update();
 
-
-
     }
 
     public void vuforiaNavigate(int x, int y) {
@@ -64,38 +64,48 @@ public class AutoBase extends LinearOpMode {
         while(vcb.y != y) {
             vcb.getPose();
             double error = vcb.y - y;
-            strafe(-Math.signum(error), 0.2);
+            strafe(-Math.signum(error), 0.2, 0);
         }
 
         while(vcb.x != x) {
             vcb.getPose();
             double error = vcb.x - x;
-            drive(0.4 * Math.signum(error));
+            drive(0.4 * Math.signum(error), 0);
         }
 
     }
 
     // -1 for left and +1 for right
-    public void strafe(double direction, double power) {
-        robot.leftFront.setPower(power * direction);
-        robot.leftRear.setPower(-power * direction);
-        robot.rightFront.setPower(-power * direction);
-        robot.rightRear.setPower(power * direction);
-
-
-    }
-
-    public void drive(double power) {
-
+    public void strafe(double direction, double power, double targetHeading) {
         angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double currentHeading = angles.firstAngle;
 
         double gyroCorrectionPwr = GYRO_CORRECTION_FACTOR * computeGyroDriveCorrectionError(targetHeading, currentHeading);
 
-        robot.leftFront.setPower(power);
-        robot.leftRear.setPower(power);
-        robot.rightFront.setPower(power);
-        robot.rightRear.setPower(power);
+        // adjusting powers of motors going in the same direction
+//        robot.leftFront.setPower((power + gyroCorrectionPwr) * direction);
+//        robot.leftRear.setPower(-(power - gyroCorrectionPwr) * direction);
+//        robot.rightFront.setPower(-(power - gyroCorrectionPwr) * direction);
+//        robot.rightRear.setPower((power + gyroCorrectionPwr) * direction);
+
+        //adjusting power of motors on the same side
+        robot.leftFront.setPower((power + gyroCorrectionPwr) * direction);
+        robot.leftRear.setPower(-(power + gyroCorrectionPwr) * direction);
+        robot.rightFront.setPower(-(power - gyroCorrectionPwr) * direction);
+        robot.rightRear.setPower((power - gyroCorrectionPwr) * direction);
+
+    }
+
+    public void drive(double power, double targetHeading) {
+        angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        double currentHeading = angles.firstAngle;
+
+        double gyroCorrectionPwr = GYRO_CORRECTION_FACTOR * computeGyroDriveCorrectionError(targetHeading, currentHeading);
+
+        robot.leftFront.setPower(power + gyroCorrectionPwr);
+        robot.leftRear.setPower(power + gyroCorrectionPwr);
+        robot.rightFront.setPower(power - gyroCorrectionPwr);
+        robot.rightRear.setPower(power - gyroCorrectionPwr);
     }
 
     double computeGyroDriveCorrectionError(double inputHeading, double currentHeading) {
