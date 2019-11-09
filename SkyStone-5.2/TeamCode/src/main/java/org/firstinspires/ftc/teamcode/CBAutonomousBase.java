@@ -6,7 +6,11 @@ public class CBAutonomousBase extends LinearOpMode {
 
     RoboUtil util = null;
 
+    VuforiaCB vcb = new VuforiaCB();
+
     public void initialization() {
+
+        vcb.initVuforia();
 
         String strVersion = "Nov 08 v1.6";
         util  = new RoboUtil("Manual", telemetry);
@@ -18,6 +22,7 @@ public class CBAutonomousBase extends LinearOpMode {
         } else {
             util.updateStatus(">>", "Not All Hardware are Initialized. Ver " + strVersion);
         }
+
         util.robot.drive.resetDriveMotorsEncoder();
     }
 
@@ -25,7 +30,7 @@ public class CBAutonomousBase extends LinearOpMode {
     public void runOpMode() {
     }
 
-    public void encoderDrive(String strDirection, double distance, double maxPwr) {
+    public void encoderDrive(String strDirection, double distance, double maxPwr, boolean checkStone) {
 
         //robot.leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //robot.rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -73,6 +78,10 @@ public class CBAutonomousBase extends LinearOpMode {
                 util.moveRight(power);
             }
 
+            if (vcb.targetVisible() && checkStone) {
+                break;
+            }
+
 
             util.addStatus(">", " target position = " + targetPos);
             util.addStatus(">", " current robot pos = " + currentRobotPos);
@@ -82,6 +91,20 @@ public class CBAutonomousBase extends LinearOpMode {
         }
 
         util.robot.drive.stopDriveMotors();
+
+    }
+
+    public void vuforiaNavigate(double y) {
+        vcb.getPose();
+
+//        while(!(vcb.getY() >  y - 0.4 && vcb.getY() < y + 0.4)) {
+//            vcb.getPose();
+//            double error = vcb.getY() - y;
+//            strafe(-Math.signum(error), 0.18, 0);
+//        }
+
+        double x = vcb.getX();
+        encoderDrive("MB", -x, 0.4, false);
 
     }
 }
