@@ -11,15 +11,15 @@ public class MecanumTestV5 extends OpMode {
     @Override
     public void init() {
 
-        String strVersion = "Nov 03 v1.1";
-        //Initialize all Hardware in the Robot
-        util  = new RoboUtil("Manual", hardwareMap, telemetry);
-        if(util.robot.getHWInitializationStatus()) {
-            util.addStatus("Initialized Circuit Breakerz. Ver " + strVersion);
-            util.updateStatus(">>", " Press Start...");
-        } else {
-            util.updateStatus(">>", "Not All Hardware are Initialized. Ver " + strVersion);
-        }
+//        String strVersion = "Nov 03 v1.1";
+//        //Initialize all Hardware in the Robot
+//        util  = new RoboUtil("Manual", hardwareMap, telemetry);
+//        if(util.robot.getHWInitializationStatus()) {
+//            util.addStatus("Initialized Circuit Breakerz. Ver " + strVersion);
+//            util.updateStatus(">>", " Press Start...");
+//        } else {
+//            util.updateStatus(">>", "Not All Hardware are Initialized. Ver " + strVersion);
+//        }
     }
 
     @Override

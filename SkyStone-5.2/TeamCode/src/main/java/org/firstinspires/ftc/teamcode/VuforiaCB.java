@@ -20,6 +20,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 public class VuforiaCB {
 
+    private boolean targetVisible = false;
+
     private final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private final boolean PHONE_IS_PORTRAIT = false  ;
 
@@ -34,8 +36,8 @@ public class VuforiaCB {
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
 
-    public double x = 0;
-    public double y = 0;
+    private double x = 0;
+    private double y = 0;
 
     public VuforiaTrackables targetsSkyStone = null;
 
@@ -83,7 +85,7 @@ public class VuforiaCB {
         }
 
         final float CAMERA_FORWARD_DISPLACEMENT  = 0.0f * mmPerInch;   // eg: Camera is 4 Inches in front of robot center
-        final float CAMERA_VERTICAL_DISPLACEMENT = 8.0f * mmPerInch;   // eg: Camera is 8 Inches above ground
+        final float CAMERA_VERTICAL_DISPLACEMENT = 0.0f * mmPerInch;   // eg: Camera is 8 Inches above ground
         final float CAMERA_LEFT_DISPLACEMENT     = 0;     // eg: Camera is ON the robot's center line
 
         robotFromCamera = OpenGLMatrix
@@ -97,21 +99,33 @@ public class VuforiaCB {
 
     }
 
+    public boolean targetVisible() {
+        getPose();
+        return targetVisible;
+    }
+
+    double getX() {
+       return x;
+    }
+
+    double getY(){
+        return y;
+    }
+
     public void getPose() {
         targetsSkyStone.activate();
         // check all the trackable targets to see which one (if any) is visible.
-        boolean targetVisible = false;
         for (VuforiaTrackable trackable : allTrackables) {
             if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
                 targetVisible = true;
 
-                // getUpdatedRobotLocation() will return null if no new information is available since
-                // the last time that call was made, or if the trackable is not currently visible.
                 OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
                 if (robotLocationTransform != null) {
                     lastLocation = robotLocationTransform;
                 }
                 break;
+            } else {
+                targetVisible = false;
             }
         }
 

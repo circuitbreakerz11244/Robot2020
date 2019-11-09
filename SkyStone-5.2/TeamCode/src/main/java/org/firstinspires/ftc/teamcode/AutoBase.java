@@ -57,21 +57,17 @@ public class AutoBase extends LinearOpMode {
 
     }
 
-    public void vuforiaNavigate(int x, int y) {
-        vcb.targetsSkyStone.activate();
+    public void vuforiaNavigate(double y) {
         vcb.getPose();
 
-        while(vcb.y != y) {
+        while(!(vcb.getY() >  y - 0.4 && vcb.getY() < y + 0.4)) {
             vcb.getPose();
-            double error = vcb.y - y;
+            double error = vcb.getY() - y;
             strafe(-Math.signum(error), 0.2, 0);
         }
 
-        while(vcb.x != x) {
-            vcb.getPose();
-            double error = vcb.x - x;
-            drive(0.4 * Math.signum(error), 0);
-        }
+        double x = vcb.getX();
+        encoderDrive(x, 0.5, 0);
 
     }
 
@@ -125,6 +121,22 @@ public class AutoBase extends LinearOpMode {
 
         return error;
     }
+
+    public void encoderDrive(double distance, double power, double heading) {
+
+    }
+
+    public void grabStone() {
+
+    }
+
+    public void setMotorPowers(double power) {
+        robot.rightFront.setPower(power);
+        robot.rightRear.setPower(power);
+        robot.leftFront.setPower(power);
+        robot.leftRear.setPower(power);
+    }
+
 
 
     @Override
