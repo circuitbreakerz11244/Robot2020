@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -27,17 +28,19 @@ public class AutoBase extends LinearOpMode {
         robot.rightRear = hardwareMap.get(DcMotor.class, robot.rrName);
         robot.leftFront = hardwareMap.get(DcMotor.class, robot.lfName);
         robot.rightFront = hardwareMap.get(DcMotor.class, robot.rfName);
-        robot.wheelyThing = hardwareMap.get(DcMotor.class, robot.wtName);
-        robot.arm = hardwareMap.get(DcMotor.class, robot.armName);
-        robot.claw = hardwareMap.servo.get(robot.clawName);
+//        robot.wheelyThing = hardwareMap.get(DcMotor.class, robot.wtName);
+//        robot.arm = hardwareMap.get(DcMotor.class, robot.armName);
+//        robot.claw = hardwareMap.servo.get(robot.clawName);
 
-        robot.rightRear.setDirection(DcMotor.Direction.REVERSE);
-        robot.rightFront.setDirection(DcMotor.Direction.REVERSE);
+        robot.leftRear.setDirection(DcMotor.Direction.REVERSE);
+        robot.leftFront.setDirection(DcMotor.Direction.REVERSE);
+        robot.rightRear.setDirection(DcMotor.Direction.FORWARD);
+        robot.rightFront.setDirection(DcMotor.Direction.FORWARD);
 
         telemetry.addData(">", "Press Start");
         telemetry.update();
 
-        robot.claw.setPosition(robot.CLAW_INIT);
+//        robot.claw.setPosition(robot.CLAW_INIT);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit            = BNO055IMU.AngleUnit.DEGREES;
@@ -63,11 +66,11 @@ public class AutoBase extends LinearOpMode {
         while(!(vcb.getY() >  y - 0.4 && vcb.getY() < y + 0.4)) {
             vcb.getPose();
             double error = vcb.getY() - y;
-            strafe(-Math.signum(error), 0.2, 0);
+            strafe(Math.signum(error), 0.25, 0);
         }
 
         double x = vcb.getX();
-        encoderDrive(x, 0.5, 0);
+        encoderDrive(-x, 0.4, 0);
 
     }
 
@@ -122,8 +125,60 @@ public class AutoBase extends LinearOpMode {
         return error;
     }
 
-    public void encoderDrive(double distance, double power, double heading) {
+    public void encoderDrive(double distance, double maxPwr, double targetHeading) {
 
+        angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        robot.leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        distance = distance/2;
+
+        double initPosLF = robot.leftFront.getCurrentPosition();
+        double initPosRF = robot.rightFront.getCurrentPosition();
+        double initPosLR = robot.leftRear.getCurrentPosition();
+        double initPosRR = robot.rightRear.getCurrentPosition();
+
+        double targetPos    = distance * CBRoboConstants.COUNTS_PER_INCH;
+
+        double currentRobotPos = 0.;
+
+        double power = maxPwr;
+
+        // slopes for proportional speed increase/decrease
+        double decSlope = (maxPwr - CBRoboConstants.DRIVE_MINIMUM_DRIVE_PWR) / (CBRoboConstants.DRIVE_DECELERATION_THRESHOLD);
+
+        while (Math.abs(currentRobotPos) < Math.abs(targetPos)){
+
+            double curPosLF = robot.leftFront.getCurrentPosition() - initPosLF;
+            double curPosRF = robot.rightFront.getCurrentPosition() - initPosRF;
+            double curPosLR = robot.rightFront.getCurrentPosition() - initPosLR;
+            double curPosRR = robot.rightFront.getCurrentPosition() - initPosRR;
+
+            currentRobotPos = (curPosLF + curPosRF + curPosLR + curPosRR) / 4;
+
+            // calculating points on trapezoidal profile graph
+            power = maxPwr - decSlope * (Math.abs(currentRobotPos) / CBRoboConstants.COUNTS_PER_INCH);
+
+            if (power < CBRoboConstants.DRIVE_MINIMUM_DRIVE_PWR)
+                power = CBRoboConstants.DRIVE_MINIMUM_DRIVE_PWR;
+
+            angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            double currentHeading = angles.firstAngle;
+
+            double gyroCorrectionPwr = GYRO_CORRECTION_FACTOR * computeGyroDriveCorrectionError(targetHeading, currentHeading);
+
+            robot.leftFront.setPower((power + gyroCorrectionPwr) * Math.signum(distance));
+            robot.leftRear.setPower((power + gyroCorrectionPwr) * Math.signum(distance));
+            robot.rightFront.setPower((power - gyroCorrectionPwr) * Math.signum(distance));
+            robot.rightRear.setPower((power - gyroCorrectionPwr) * Math.signum(distance));
+
+            telemetry.addData(">", " target position = " + targetPos);
+            telemetry.addData(">", " current robot pos = " + currentRobotPos);
+            telemetry.addData(">", " power = " + power);
+
+        }
+
+        setMotorPowers(0.0);
     }
 
     public void grabStone() {

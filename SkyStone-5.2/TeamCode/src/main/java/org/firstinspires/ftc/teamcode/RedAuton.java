@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+@Autonomous(name = "red auton")
 public class RedAuton extends AutoBase {
 
     @Override
@@ -9,10 +12,10 @@ public class RedAuton extends AutoBase {
 
         waitForStart();
 
-        encoderDrive(36, 0.8, 0);
+        encoderDrive(-36, 0.6, 0);
 
         while(!vcb.targetVisible())  {
-            strafe(-1, 0.2, 0);
+            strafe(1, 0.25, 0);
             telemetry.addData(">", "searching for skystone...");
             telemetry.update();
         }
@@ -33,7 +36,7 @@ public class RedAuton extends AutoBase {
 
         telemetry.addData(">", "skystone delivered!");
 
-        encoderDrive(-36, 0.8, 0);
+        encoderDrive(36, 0.6, 0);
 
         // go sideways to park
 //        strafe(1, 0.8, 0);
