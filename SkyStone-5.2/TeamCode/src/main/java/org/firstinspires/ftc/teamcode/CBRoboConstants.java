@@ -5,6 +5,10 @@ public interface CBRoboConstants {
     final double DRIVE_MOTOR_MOVE_POWER   = 0.71;
     final double DRIVE_MOTOR_ROTATE_POWER = 1.00;
 
+    //drive function constants
+    final double DRIVE_MINIMUM_DRIVE_PWR = 0.16;
+    final double DRIVE_DECELERATION_THRESHOLD = 6.25;
+
     final double ARM_MOTOR_MOVE_POWER   = 0.71;
     final double ARM_MOTOR_ROTATE_POWER = 1.00;
 

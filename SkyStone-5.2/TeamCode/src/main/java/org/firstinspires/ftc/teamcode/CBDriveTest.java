@@ -10,7 +10,7 @@ public class CBDriveTest extends LinearOpMode {
 
     public void initialization() {
 
-        String strVersion = "Nov 07 v1.1";
+        String strVersion = "Nov 08 v1.2";
         util  = new RoboUtil("Manual", telemetry);
         util.robot.initializeDrive(hardwareMap,true);
         boolean bHWInitialized = util.robot.getRoboInitializationStatus();
@@ -56,7 +56,6 @@ public class CBDriveTest extends LinearOpMode {
 
         util.moveRight();
         sleepInSecs(1);
-        sleep(1000);
         util.robot.drive.applyDriveMotorsBrake();
         util.robot.drive.stopDriveMotors();
         util.displayDriveEncoderValues();
