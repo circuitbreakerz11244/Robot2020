@@ -23,8 +23,6 @@ public class VuforiaCB {
     private final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private final boolean PHONE_IS_PORTRAIT = false  ;
 
-    private boolean targetVisible = false;
-
     private final String VUFORIA_KEY = "AcHjh/L/////AAABmcefxvFABE4egC7kE6SDokyA19FitpO9VTpAUQ/GPclYxIQgGBA0Sr5gYRvVcRDvCx1CsTjPNA9Sf8Kyg9DyYMsIOfDxHMB90T7EDD6hf2IOO/8H3Q838aFilXo1vbpfSjJCtmK+0YRZYiPzNMsELmk4iC8FAfJdI7xPjIVQBtZtnB5b8V2g19HDUHzs36JuiwuVUScojAEKJh/cLmD/XNo74C2HXWO0DiVU/i1fnJdSf4At0Vu0HeAEPer2hQcPZFkuRyHElmsSA+Uj9kXlNCCb+9Lv3g8RFLJzNANPwDoMrxkCppQhuY4LkDoQo+HHfvq7RcKW11eZaipdYeoK95dj2GUMWk6QMNjnm2vVVPma";
 
     private final float mmPerInch = 25.4f;
@@ -36,10 +34,8 @@ public class VuforiaCB {
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
 
-    VuforiaTrackable trackable;
-
-    private double x = 0;
-    private double y = 0;
+    public double x = 0;
+    public double y = 0;
 
     public VuforiaTrackables targetsSkyStone = null;
 
@@ -87,7 +83,7 @@ public class VuforiaCB {
         }
 
         final float CAMERA_FORWARD_DISPLACEMENT  = 0.0f * mmPerInch;   // eg: Camera is 4 Inches in front of robot center
-        final float CAMERA_VERTICAL_DISPLACEMENT = 0.0f * mmPerInch;   // eg: Camera is 8 Inches above ground
+        final float CAMERA_VERTICAL_DISPLACEMENT = 8.0f * mmPerInch;   // eg: Camera is 8 Inches above ground
         final float CAMERA_LEFT_DISPLACEMENT     = 0;     // eg: Camera is ON the robot's center line
 
         robotFromCamera = OpenGLMatrix
@@ -101,76 +97,21 @@ public class VuforiaCB {
 
     }
 
-//    public boolean targetVisible() {
-//        targetsSkyStone.activate();
-//        // check all the trackable targets to see which one (if any) is visible.
-//        for (VuforiaTrackable track : allTrackables) {
-//            if (((VuforiaTrackableDefaultListener)track.getListener()).isVisible()) {
-//                trackable = track;
-//                return true;
-//            }
-//        }
-//        return false;
-//
-//    }
-//
-//    double getX() {
-//       return x;
-//    }
-//
-//    double getY(){
-//        return y;
-//    }
-//
-//    public void getPose() {
-//
-//        targetVisible();
-//
-//        if (targetVisible()) {
-//
-//            OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
-//            if (robotLocationTransform != null) {
-//                    lastLocation = robotLocationTransform;
-//                }
-//
-//            // express position (translation) of robot in inches.
-//            VectorF translation = lastLocation.getTranslation();
-//            x = translation.get(0) / mmPerInch;
-//            y = translation.get(1) / mmPerInch;
-//
-//            // express the rotation of the robot in degrees.
-////            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-////            telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
-//        }
-//    }
-
-    public boolean targetVisible() {
-        getPose();
-        return targetVisible;
-    }
-
-    double getX() {
-        return x;
-    }
-
-    double getY(){
-        return y;
-    }
-
     public void getPose() {
         targetsSkyStone.activate();
         // check all the trackable targets to see which one (if any) is visible.
+        boolean targetVisible = false;
         for (VuforiaTrackable trackable : allTrackables) {
             if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
                 targetVisible = true;
 
+                // getUpdatedRobotLocation() will return null if no new information is available since
+                // the last time that call was made, or if the trackable is not currently visible.
                 OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
                 if (robotLocationTransform != null) {
                     lastLocation = robotLocationTransform;
                 }
                 break;
-            } else {
-                targetVisible = false;
             }
         }
 
@@ -179,7 +120,7 @@ public class VuforiaCB {
             // express position (translation) of robot in inches.
             VectorF translation = lastLocation.getTranslation();
             x = translation.get(0) / mmPerInch;
-            y = translation.get(1) / mmPerInch + 8.5;
+            y = translation.get(1) / mmPerInch;
 
             // express the rotation of the robot in degrees.
 //            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);

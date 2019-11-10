@@ -25,7 +25,7 @@ public class RobotHardwareCB {
 
     String lrName = "leftRear";
     String lfName = "leftFront";
-    String rrName = "rightRear";
+    String rrName = "rightrear";
     String rfName = "rightFront";
     String wtName = "wheelyThing";
     String armName = "arm";
