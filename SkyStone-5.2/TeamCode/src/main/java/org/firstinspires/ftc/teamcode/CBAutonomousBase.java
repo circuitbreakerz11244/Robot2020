@@ -10,7 +10,7 @@ public class CBAutonomousBase extends LinearOpMode {
     ColorSensor colorSensor;
 
     // test to fine tune value
-    final double COLOR_THRESH = 100;
+    final double COLOR_THRESH = 20.0;
 
     public void initialization() {
 
@@ -100,10 +100,10 @@ public class CBAutonomousBase extends LinearOpMode {
                 break;
             }
 
-            // test to see whether to check red, blue or green
-//            if(checkColor && colorSensor.red() > COLOR_THRESH){
-//             break;
-//            }
+//             test to see whether to check red, blue or green
+            if(checkColor && colorSensor.red() > COLOR_THRESH){
+             break;
+            }
 
 
             util.addStatus(">", " target position = " + targetPos);
@@ -181,10 +181,17 @@ public class CBAutonomousBase extends LinearOpMode {
 
 
 
-    public void vuforiaNavigate(double y) {
+    public void vuforiaNavigate(double y, String alliance) {
         vcb.getPose();
 
-        encoderDrive("MR", Math.abs(vcb.getY()), 0.3);
+        String direction = "";
+
+        if (alliance.equalsIgnoreCase("red"))
+            direction = "MR";
+        else
+            direction = "ML";
+
+        encoderDrive(direction, Math.abs(vcb.getY()), 0.3);
 
         double x = vcb.getX();
         encoderDrive("MB", -x, 0.4, false);

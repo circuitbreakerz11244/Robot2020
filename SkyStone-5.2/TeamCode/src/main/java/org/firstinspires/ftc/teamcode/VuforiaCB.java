@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.vuforia.CameraDevice;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
@@ -159,6 +161,7 @@ public class VuforiaCB {
 
     public void getPose() {
         targetsSkyStone.activate();
+
         // check all the trackable targets to see which one (if any) is visible.
         for (VuforiaTrackable trackable : allTrackables) {
             if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {

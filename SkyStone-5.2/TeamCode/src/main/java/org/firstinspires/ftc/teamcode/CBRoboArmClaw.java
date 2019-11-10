@@ -17,9 +17,16 @@ public class CBRoboArmClaw  {
     //Servo for pull foundation
     public Servo pullServo;
 
+    //Servo to grab skystone during autonomous
+    public Servo skystoneServo;
+
     //TBD - Compute and fix this value
     final double CLAW_OPEN  = 0.0;
     final double CLAW_CLOSE = 1.0;
+
+    //TBD - test values
+    final double SKYSTONE_OPEN = 1.0;
+    final double SKYSTONE_CLOSE = 0.0;
 
     final double SERVO_INITIAL = 0.0; //move to   0 degree
     final double SERVO_MIDDLE  = 0.5; //move to  90 degrees
@@ -52,9 +59,10 @@ public class CBRoboArmClaw  {
         //Servos
         claw = hardwareMap.servo.get("claw");
         pullServo = hardwareMap.servo.get("pullServo");
+        skystoneServo = hardwareMap.servo.get("skystoneServo");
 
         //Make sure all Hardware are initialized
-        if(armMotor != null && clawMotor != null && claw != null && pullServo != null) {
+        if(armMotor != null && clawMotor != null && claw != null && pullServo != null && skystoneServo != null) {
             bArmInitialized = true;
         }
 

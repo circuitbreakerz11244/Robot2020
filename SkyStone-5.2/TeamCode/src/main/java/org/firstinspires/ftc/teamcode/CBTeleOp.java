@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name = "CBArmTestV1", group = "teleop")
+@TeleOp(name = "CB TeleOp", group = "teleop")
 public class CBTeleOp extends OpMode {
 
     RoboUtil util = null;
@@ -41,13 +41,13 @@ public class CBTeleOp extends OpMode {
         double leftY2 = -gamepad2.left_stick_y;
         util.updateStatus("Stick>>"+leftY2);
 
-        leftY2 = Range.clip(leftY2, -0.8, 0.8);
+        Range.clip(leftY2, -0.8, 0.8);
 
         util.robot.roboArmClaw.armMotor.setPower(leftY2);
 
-        if(gamepad2.dpad_up) {
+        if(gamepad2.x) {
             util.robot.roboArmClaw.clawOpen();
-        } else if(gamepad2.dpad_down) {
+        } else if(gamepad2.a) {
             util.robot.roboArmClaw.clawClose();
         }
 

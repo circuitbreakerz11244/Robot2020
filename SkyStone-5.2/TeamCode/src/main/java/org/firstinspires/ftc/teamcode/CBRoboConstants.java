@@ -70,5 +70,4 @@ public interface CBRoboConstants {
     //0.71 -0.71 0 ==> 0 -1 1 0 [Direction Vector] move diagonally in Quad Q4
     double[] moveDiagonalQ4 = {0, -1, 1, 0};
 
-
 }
