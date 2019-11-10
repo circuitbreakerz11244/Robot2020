@@ -61,7 +61,8 @@ public class CBIMU {
     }
 
     public boolean isCalibrated() {
-        return imu.isAccelerometerCalibrated() && imu.isGyroCalibrated() && imu.isMagnetometerCalibrated() && imu.isSystemCalibrated();
+        return imu.isGyroCalibrated();
+//        return imu.isAccelerometerCalibrated() && imu.isGyroCalibrated() && imu.isMagnetometerCalibrated() && imu.isSystemCalibrated();
     }
 
     public String getSystemStatus() {

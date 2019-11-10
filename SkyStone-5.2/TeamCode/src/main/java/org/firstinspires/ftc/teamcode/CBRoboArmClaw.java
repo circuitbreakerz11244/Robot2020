@@ -7,7 +7,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class CBRoboArmClaw  {
 
     //Arm Motor
-    public DcMotor arm;
+    public DcMotor armMotor;
+    public DcMotor clawMotor;
 
     //Servo Range 0 to 1. [ 0 to 180 Degree ] (0 degree --> 0, 90 Degree --> 0.5, 180 Degree --> 1.0)
     //Servo for Claw
@@ -17,8 +18,8 @@ public class CBRoboArmClaw  {
     public Servo pullServo;
 
     //TBD - Compute and fix this value
-    final double CLAW_OPEN  = 0.3;
-    final double CLAW_CLOSE = 0.8;
+    final double CLAW_OPEN  = 0.0;
+    final double CLAW_CLOSE = 1.0;
 
     final double SERVO_INITIAL = 0.0; //move to   0 degree
     final double SERVO_MIDDLE  = 0.5; //move to  90 degrees
@@ -44,15 +45,16 @@ public class CBRoboArmClaw  {
 
     public boolean initializeArm(HardwareMap hardwareMap, boolean bEncodersOn) {
 
-        //Arm Motor
-        arm  = hardwareMap.get(DcMotor.class,  "arm"  );
+        //Arm Motors
+        armMotor  = hardwareMap.get(DcMotor.class,  "armMotor"  );
+        clawMotor = hardwareMap.get(DcMotor.class,  "clawMotor"  );
 
         //Servos
         claw = hardwareMap.servo.get("claw");
         pullServo = hardwareMap.servo.get("pullServo");
 
         //Make sure all Hardware are initialized
-        if(arm != null && claw != null && pullServo != null) {
+        if(armMotor != null && clawMotor != null && claw != null && pullServo != null) {
             bArmInitialized = true;
         }
 
@@ -66,23 +68,31 @@ public class CBRoboArmClaw  {
 
     public void encodeArmMotors(boolean bEncodersOn) {
         if (bEncodersOn) {
-            arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         } else {
-            arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
     }
 
     public void applyArmMotorsBrake() {
-        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void stopArmMotors() {
-        arm.setPower(0);
+    public void applyClawMotorBrake() {
+        clawMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void resetArmMotorsEncoder() {
-        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    public void stopArmMotor() {
+        armMotor.setPower(0);
+    }
+
+    public void stopClawMotor() {
+        armMotor.setPower(0);
+    }
+
+    public void resetArmMotorEncoder() {
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void clawOpen() {

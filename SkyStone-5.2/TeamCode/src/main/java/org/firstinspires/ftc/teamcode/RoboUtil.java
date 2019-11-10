@@ -12,6 +12,7 @@ public class RoboUtil {
     CBMainHardware robot;
     Telemetry telemetry;
     String mode = null;
+    boolean bForceStop = false;
 
     DecimalFormat df = new DecimalFormat("0.00");
 

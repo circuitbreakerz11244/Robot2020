@@ -12,6 +12,9 @@ public interface CBRoboConstants {
     final double ARM_MOTOR_MOVE_POWER   = 0.71;
     final double ARM_MOTOR_ROTATE_POWER = 1.00;
 
+    final double ARM_MAX_EXTENSION = 1;
+    final double ARM_MIN_EXTENSION = 2;
+
     //TBD - Compute and fix this value
     final double SEERVO_CLAW_OPEN  = 0.3;
     final double SEERVO_CLAW_CLOSE = 0.8;
@@ -24,6 +27,18 @@ public interface CBRoboConstants {
     final double COUNTS_PER_MOTOR_REV = 1120;    // eg: Andymark Motor Encoder
     final double WHEEL_DIAMETER_INCHES = 4.0;     // To get the circumference
     final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * 3.1415);
+
+    final double AUTO_RED_CHNL1_DIST_1 = 30;
+    final double AUTO_RED_CHNL1_POWER_1 = 0.5;
+
+    final double AUTO_RED_CHNL1_DIST_2 = 36;
+    final double AUTO_RED_CHNL1_POWER_2 = 0.2;
+
+    final double AUTO_RED_CHNL1_DIST_3 = 24;
+    final double AUTO_RED_CHNL1_POWER_3 = 0.5;
+
+    final double AUTO_RED_CHNL1_DIST_4 = 40;
+    final double AUTO_RED_CHNL1_POWER_4 = 0.5;
 
     //0 1 0 ==> -1 1 -1 1 [Direction Vector]
     double[] moveForward = {-1, 1, -1, 1};

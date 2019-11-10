@@ -7,7 +7,6 @@ public class CBMainHardware {
     CBMecanumDrive drive = null;
     CBIMU imu = null;
     CBRoboArmClaw roboArmClaw = null;
-    //Include Vforia here
 
     boolean bRoboInitialized = false;
 
@@ -37,7 +36,7 @@ public class CBMainHardware {
     }
 
     public boolean initializeDrive(HardwareMap hardwareMap) {
-        return initializeDrive(hardwareMap);
+        return initializeDrive(hardwareMap, false);
     }
 
     public boolean initializeDrive(HardwareMap hardwareMap, boolean bDriveEncodersOn) {

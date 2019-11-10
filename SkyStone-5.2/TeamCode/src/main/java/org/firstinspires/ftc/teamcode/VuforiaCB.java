@@ -20,10 +20,10 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 public class VuforiaCB {
 
-    private boolean targetVisible = false;
-
     private final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private final boolean PHONE_IS_PORTRAIT = false  ;
+
+    private boolean targetVisible = false;
 
     private final String VUFORIA_KEY = "AcHjh/L/////AAABmcefxvFABE4egC7kE6SDokyA19FitpO9VTpAUQ/GPclYxIQgGBA0Sr5gYRvVcRDvCx1CsTjPNA9Sf8Kyg9DyYMsIOfDxHMB90T7EDD6hf2IOO/8H3Q838aFilXo1vbpfSjJCtmK+0YRZYiPzNMsELmk4iC8FAfJdI7xPjIVQBtZtnB5b8V2g19HDUHzs36JuiwuVUScojAEKJh/cLmD/XNo74C2HXWO0DiVU/i1fnJdSf4At0Vu0HeAEPer2hQcPZFkuRyHElmsSA+Uj9kXlNCCb+9Lv3g8RFLJzNANPwDoMrxkCppQhuY4LkDoQo+HHfvq7RcKW11eZaipdYeoK95dj2GUMWk6QMNjnm2vVVPma";
 
@@ -35,6 +35,8 @@ public class VuforiaCB {
     private float phoneXRotate    = 0;
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
+
+    VuforiaTrackable trackable;
 
     private double x = 0;
     private double y = 0;
@@ -99,13 +101,56 @@ public class VuforiaCB {
 
     }
 
+//    public boolean targetVisible() {
+//        targetsSkyStone.activate();
+//        // check all the trackable targets to see which one (if any) is visible.
+//        for (VuforiaTrackable track : allTrackables) {
+//            if (((VuforiaTrackableDefaultListener)track.getListener()).isVisible()) {
+//                trackable = track;
+//                return true;
+//            }
+//        }
+//        return false;
+//
+//    }
+//
+//    double getX() {
+//       return x;
+//    }
+//
+//    double getY(){
+//        return y;
+//    }
+//
+//    public void getPose() {
+//
+//        targetVisible();
+//
+//        if (targetVisible()) {
+//
+//            OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+//            if (robotLocationTransform != null) {
+//                    lastLocation = robotLocationTransform;
+//                }
+//
+//            // express position (translation) of robot in inches.
+//            VectorF translation = lastLocation.getTranslation();
+//            x = translation.get(0) / mmPerInch;
+//            y = translation.get(1) / mmPerInch;
+//
+//            // express the rotation of the robot in degrees.
+////            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+////            telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+//        }
+//    }
+
     public boolean targetVisible() {
         getPose();
         return targetVisible;
     }
 
     double getX() {
-       return x;
+        return x;
     }
 
     double getY(){
@@ -134,7 +179,7 @@ public class VuforiaCB {
             // express position (translation) of robot in inches.
             VectorF translation = lastLocation.getTranslation();
             x = translation.get(0) / mmPerInch;
-            y = translation.get(1) / mmPerInch;
+            y = translation.get(1) / mmPerInch + 8.5;
 
             // express the rotation of the robot in degrees.
 //            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
