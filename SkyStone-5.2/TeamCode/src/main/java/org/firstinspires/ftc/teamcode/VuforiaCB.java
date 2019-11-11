@@ -182,7 +182,7 @@ public class VuforiaCB {
             // express position (translation) of robot in inches.
             VectorF translation = lastLocation.getTranslation();
             x = translation.get(0) / mmPerInch;
-            y = translation.get(1) / mmPerInch + 8.5;
+            y = translation.get(1) / mmPerInch + 6.0;
 
             // express the rotation of the robot in degrees.
 //            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);

@@ -44,6 +44,11 @@ public class CBMainHardware {
         return  drive.getDriveInitializationStatus();
     }
 
+    public boolean initializeIMU(HardwareMap hardwareMap) {
+        imu   = new CBIMU(hardwareMap);
+        return imu.isCalibrated();
+    }
+
     public boolean initializeArmClaw(HardwareMap hardwareMap) {
         return initializeArmClaw(hardwareMap, true);
     }

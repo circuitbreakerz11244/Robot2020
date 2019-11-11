@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.vuforia.CameraDevice;
 
 @Autonomous(name = "vuforia test")
 public class VuforiaTest extends AutoBase {
@@ -13,6 +14,8 @@ public class VuforiaTest extends AutoBase {
 
         waitForStart();
 
+        CameraDevice.getInstance().setFlashTorchMode(true);
+
         while(opModeIsActive()) {
 
             boolean visible = vcb.targetVisible();
@@ -22,6 +25,8 @@ public class VuforiaTest extends AutoBase {
             telemetry.addData(">", "target visible: " + visible);
             telemetry.update();
         }
+
+        CameraDevice.getInstance().setFlashTorchMode(false);
 
     }
 }

@@ -127,8 +127,9 @@ public class AutoBase extends LinearOpMode {
                 else
                     error = (180 + currentHeading) + (180 - inputHeading);
             } else
-        }
                 error = currentHeading - inputHeading;
+        }
+
 
         return error;
     }
