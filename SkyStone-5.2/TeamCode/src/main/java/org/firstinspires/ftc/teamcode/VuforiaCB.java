@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.vuforia.CameraDevice;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
@@ -159,6 +161,7 @@ public class VuforiaCB {
 
     public void getPose() {
         targetsSkyStone.activate();
+
         // check all the trackable targets to see which one (if any) is visible.
         for (VuforiaTrackable trackable : allTrackables) {
             if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
@@ -179,7 +182,7 @@ public class VuforiaCB {
             // express position (translation) of robot in inches.
             VectorF translation = lastLocation.getTranslation();
             x = translation.get(0) / mmPerInch;
-            y = translation.get(1) / mmPerInch + 8.5;
+            y = translation.get(1) / mmPerInch + 6.0;
 
             // express the rotation of the robot in degrees.
 //            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);

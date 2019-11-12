@@ -12,19 +12,19 @@ public class CBAutoTest1 extends CBAutonomousBase {
         initialization();
         waitForStart();
 
-        encoderDrive("MF",12,0.7);
+        encoderDrive("MF",12,0.7,0);
         util.displayDriveEncoderValues();
         sleep(3000);
 
-        encoderDrive("MB",12,0.7);
+        encoderDrive("MB",12,0.7,0);
         util.displayDriveEncoderValues();
         sleep(3000);
 
-        encoderDrive("MR",12,0.4);
+        encoderDrive("MR",12,0.4,0);
         util.displayDriveEncoderValues();
         sleep(3000);
 
-        encoderDrive("ML",12,0.4);
+        encoderDrive("ML",12,0.4,0);
         util.displayDriveEncoderValues();
         sleep(100000);
     }
