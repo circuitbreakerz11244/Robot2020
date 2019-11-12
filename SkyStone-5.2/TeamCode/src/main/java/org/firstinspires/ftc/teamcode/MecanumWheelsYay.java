@@ -24,7 +24,7 @@ public class MecanumWheelsYay extends OpMode {
         robot.rightFront = hardwareMap.get(DcMotor.class, robot.rfName);
         robot.arm = hardwareMap.get(DcMotor.class, robot.armName);
         robot.claw = hardwareMap.servo.get(robot.clawName);
-        robot.foundation = hardwareMap.servo.get(robot.fName);
+       
 
         robot.rightRear.setDirection(DcMotor.Direction.REVERSE);
         robot.rightFront.setDirection(DcMotor.Direction.REVERSE);
@@ -59,12 +59,6 @@ public class MecanumWheelsYay extends OpMode {
             robot.claw.setPosition(robot.CLAW_CLOSE);
         }
 
-        //Foundation open and close
-        if (gamepad2.left_bumper) {
-            robot.foundation.setPosition(robot.FOUNDATION_DOWN);
-        } else if (gamepad2.right_bumper) {
-            robot.foundation.setPosition(robot.FOUNDATION_UP);
-        }
 
 
 
