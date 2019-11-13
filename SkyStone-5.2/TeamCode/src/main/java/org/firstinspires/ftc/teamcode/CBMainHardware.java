@@ -7,6 +7,7 @@ public class CBMainHardware {
     CBMecanumDrive drive = null;
     CBIMU imu = null;
     CBRoboArmClaw roboArmClaw = null;
+    //Include Vforia here
 
     boolean bRoboInitialized = false;
 
@@ -36,7 +37,7 @@ public class CBMainHardware {
     }
 
     public boolean initializeDrive(HardwareMap hardwareMap) {
-        return initializeDrive(hardwareMap, false);
+        return initializeDrive(hardwareMap);
     }
 
     public boolean initializeDrive(HardwareMap hardwareMap, boolean bDriveEncodersOn) {
@@ -44,17 +45,17 @@ public class CBMainHardware {
         return  drive.getDriveInitializationStatus();
     }
 
-    public boolean initializeIMU(HardwareMap hardwareMap) {
-        imu   = new CBIMU(hardwareMap);
-        return imu.isCalibrated();
-    }
-
     public boolean initializeArmClaw(HardwareMap hardwareMap) {
         return initializeArmClaw(hardwareMap, true);
     }
 
-    public boolean initializeArmClaw(HardwareMap hardwareMap, boolean bArmEncodersOn) {
-        roboArmClaw = new CBRoboArmClaw(hardwareMap, bArmEncodersOn);
+    public boolean initializeArmClaw(HardwareMap hardwareMap, boolean bArmEncoderOn) {
+        roboArmClaw = new CBRoboArmClaw(hardwareMap, bArmEncoderOn);
+        return roboArmClaw.getArmInitializationStatus();
+    }
+
+    public boolean initializeArmClaw(HardwareMap hardwareMap, boolean bArmEncoderOn, boolean bClawEncodeOn) {
+        roboArmClaw = new CBRoboArmClaw(hardwareMap, bArmEncoderOn, bClawEncodeOn);
         return roboArmClaw.getArmInitializationStatus();
     }
 

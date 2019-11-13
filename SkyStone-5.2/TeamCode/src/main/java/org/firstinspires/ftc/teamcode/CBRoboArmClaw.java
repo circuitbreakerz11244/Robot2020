@@ -21,12 +21,16 @@ public class CBRoboArmClaw  {
     public Servo skystoneServo;
 
     //TBD - Compute and fix this value
-    final double CLAW_OPEN  = 0.0;
-    final double CLAW_CLOSE = 1.0;
+    final double CLAW_SERVO_OPEN  = 0.0;
+    final double CLAW_SERVO_CLOSE = 1.0;
+
+    //TBD - Compute and fix this value
+    final double PULL_SERVO_OPEN  = 0.0;
+    final double PULL_SERVO_CLOSE = 1.0;
 
     //TBD - test values
-    final double SKYSTONE_OPEN = 1.0;
-    final double SKYSTONE_CLOSE = 0.0;
+    final double SKYSTONE_SERVO_OPEN = 0.0;
+    final double SKYSTONE_SERVO_CLOSE = 1.0;
 
     final double SERVO_INITIAL = 0.0; //move to   0 degree
     final double SERVO_MIDDLE  = 0.5; //move to  90 degrees
@@ -42,15 +46,23 @@ public class CBRoboArmClaw  {
         this.bArmInitialized = initializeArm(hardwareMap);
     }
 
-    CBRoboArmClaw(HardwareMap hardwareMap, boolean bEncodersOn) {
-        this.bArmInitialized = initializeArm(hardwareMap, bEncodersOn);
+    CBRoboArmClaw(HardwareMap hardwareMap, boolean bArmEncoderOn) {
+        this.bArmInitialized = initializeArm(hardwareMap, bArmEncoderOn);
+    }
+
+    CBRoboArmClaw(HardwareMap hardwareMap, boolean bArmEncoderOn, boolean bClawEncoderOn) {
+        this.bArmInitialized = initializeArm(hardwareMap, bArmEncoderOn, bClawEncoderOn);
     }
 
     public boolean initializeArm(HardwareMap hardwareMap) {
-        return initializeArm(hardwareMap, true);
+        return initializeArm(hardwareMap, false);
     }
 
-    public boolean initializeArm(HardwareMap hardwareMap, boolean bEncodersOn) {
+    public boolean initializeArm(HardwareMap hardwareMap, boolean bArmEncoderOn) {
+        return initializeArm(hardwareMap, bArmEncoderOn, false);
+    }
+
+    public boolean initializeArm(HardwareMap hardwareMap, boolean bArmEncoderOn, boolean bClawEncoderOn) {
 
         //Arm Motors
         armMotor  = hardwareMap.get(DcMotor.class,  "armMotor"  );
@@ -67,14 +79,17 @@ public class CBRoboArmClaw  {
         }
 
         //Set the encoders based on parameter passed
-        encodeArmMotors(bEncodersOn);
+        encodeArmMotor(bArmEncoderOn);
+        encodeClawMotor(bClawEncoderOn);
+
         //Start with Zero Power Behaviour
-        applyArmMotorsBrake();
+        applyArmMotorBrake();
+        applyClawMotorBrake();
 
         return bArmInitialized;
     }
 
-    public void encodeArmMotors(boolean bEncodersOn) {
+    public void encodeArmMotor(boolean bEncodersOn) {
         if (bEncodersOn) {
             armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         } else {
@@ -82,7 +97,15 @@ public class CBRoboArmClaw  {
         }
     }
 
-    public void applyArmMotorsBrake() {
+    public void encodeClawMotor(boolean bEncodersOn) {
+        if (bEncodersOn) {
+            clawMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        } else {
+            clawMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
+    }
+
+    public void applyArmMotorBrake() {
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
@@ -95,7 +118,7 @@ public class CBRoboArmClaw  {
     }
 
     public void stopClawMotor() {
-        armMotor.setPower(0);
+        clawMotor.setPower(0);
     }
 
     public void resetArmMotorEncoder() {
@@ -103,8 +126,13 @@ public class CBRoboArmClaw  {
         armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    public void resetClawMotorEncoder() {
+        clawMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        clawMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
     public void clawOpen() {
-        claw.setPosition(CLAW_OPEN);
+        claw.setPosition(CLAW_SERVO_OPEN);
     }
 
     public void clawOpen(double pDouble) {
@@ -112,11 +140,47 @@ public class CBRoboArmClaw  {
     }
 
     public void clawClose() {
-        claw.setPosition(CLAW_CLOSE);
+        claw.setPosition(CLAW_SERVO_CLOSE);
     }
 
     public void clawClose(double pDouble) {
         claw.setPosition(pDouble);
+    }
+
+    public void pullServoOpen() {
+        claw.setPosition(PULL_SERVO_OPEN);
+    }
+
+    public void pullServoOpen(double pDouble) {
+        claw.setPosition(pDouble);
+    }
+
+    public void pullServoClose() {
+        claw.setPosition(PULL_SERVO_CLOSE);
+    }
+
+    public void pullServoClose(double pDouble) {
+        claw.setPosition(pDouble);
+    }
+
+    public void skystoneServoOpen() {
+        claw.setPosition(SKYSTONE_SERVO_OPEN);
+    }
+
+    public void skystoneServoOpen(double pDouble) {
+        claw.setPosition(pDouble);
+    }
+
+    public void skystoneServoClose() {
+        claw.setPosition(SKYSTONE_SERVO_CLOSE);
+    }
+
+    public void skystoneServoClose(double pDouble) {
+        claw.setPosition(pDouble);
+    }
+
+    public void servoOpen(Servo servo, double position) {
+        servo.setPosition(position);
     }
 
     public boolean getArmInitializationStatus() {
