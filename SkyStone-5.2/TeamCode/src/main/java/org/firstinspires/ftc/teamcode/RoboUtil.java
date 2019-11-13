@@ -199,19 +199,51 @@ public class RoboUtil {
     }
 
     public void clawOpen() {
-        robot.roboArmClaw.claw.setPosition(CBRoboConstants.SEERVO_CLAW_OPEN);
+        robot.roboArmClaw.clawOpen();
     }
 
     public void clawOpen(double pDouble) {
-        robot.roboArmClaw.claw.setPosition(pDouble);
+        robot.roboArmClaw.clawOpen(pDouble);
     }
 
     public void clawClose() {
-        robot.roboArmClaw.claw.setPosition(CBRoboConstants.SEERVO_CLAW_CLOSE);
+        robot.roboArmClaw.clawClose();
     }
 
     public void clawClose(double pDouble) {
-        robot.roboArmClaw.claw.setPosition(pDouble);
+        robot.roboArmClaw.clawClose(pDouble);
+    }
+
+    public void pullServoOpen() {
+        robot.roboArmClaw.pullServoOpen();
+    }
+
+    public void pullServoOpen(double pDouble) {
+        robot.roboArmClaw.pullServoOpen(pDouble);
+    }
+
+    public void pullServoClose() {
+        robot.roboArmClaw.pullServoClose();
+    }
+
+    public void pullServoClose(double pDouble) {
+        robot.roboArmClaw.skystoneServoClose(pDouble);
+    }
+
+    public void skystoneServoOpen() {
+        robot.roboArmClaw.skystoneServoOpen();
+    }
+
+    public void skystoneServoOpen(double pDouble) {
+        robot.roboArmClaw.skystoneServoOpen(pDouble);
+    }
+
+    public void skystoneServoClose() {
+        robot.roboArmClaw.skystoneServoClose();
+    }
+
+    public void skystoneServoClose(double pDouble) {
+        robot.roboArmClaw.clawClose(pDouble);
     }
 
     public int getMotorEncoderValue(DcMotor motor) {

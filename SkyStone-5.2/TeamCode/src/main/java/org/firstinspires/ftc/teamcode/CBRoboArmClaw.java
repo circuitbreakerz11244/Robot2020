@@ -25,12 +25,12 @@ public class CBRoboArmClaw  {
     final double CLAW_SERVO_CLOSE = 1.0;
 
     //TBD - Compute and fix this value
-    final double PULL_SERVO_OPEN  = 0.0;
-    final double PULL_SERVO_CLOSE = 1.0;
+    final double PULL_SERVO_OPEN  = 1.0;
+    final double PULL_SERVO_CLOSE = 0.3;
 
     //TBD - test values
-    final double SKYSTONE_SERVO_OPEN = 0.0;
-    final double SKYSTONE_SERVO_CLOSE = 1.0;
+    final double SKYSTONE_SERVO_OPEN = 0.95;
+    final double SKYSTONE_SERVO_CLOSE = 0.35;
 
     final double SERVO_INITIAL = 0.0; //move to   0 degree
     final double SERVO_MIDDLE  = 0.5; //move to  90 degrees
@@ -148,35 +148,35 @@ public class CBRoboArmClaw  {
     }
 
     public void pullServoOpen() {
-        claw.setPosition(PULL_SERVO_OPEN);
+        pullServo.setPosition(PULL_SERVO_OPEN);
     }
 
     public void pullServoOpen(double pDouble) {
-        claw.setPosition(pDouble);
+        pullServo.setPosition(pDouble);
     }
 
     public void pullServoClose() {
-        claw.setPosition(PULL_SERVO_CLOSE);
+        pullServo.setPosition(PULL_SERVO_CLOSE);
     }
 
     public void pullServoClose(double pDouble) {
-        claw.setPosition(pDouble);
+        pullServo.setPosition(pDouble);
     }
 
     public void skystoneServoOpen() {
-        claw.setPosition(SKYSTONE_SERVO_OPEN);
+        skystoneServo.setPosition(SKYSTONE_SERVO_OPEN);
     }
 
     public void skystoneServoOpen(double pDouble) {
-        claw.setPosition(pDouble);
+        skystoneServo.setPosition(pDouble);
     }
 
     public void skystoneServoClose() {
-        claw.setPosition(SKYSTONE_SERVO_CLOSE);
+        skystoneServo.setPosition(SKYSTONE_SERVO_CLOSE);
     }
 
     public void skystoneServoClose(double pDouble) {
-        claw.setPosition(pDouble);
+        skystoneServo.setPosition(pDouble);
     }
 
     public void servoOpen(Servo servo, double position) {

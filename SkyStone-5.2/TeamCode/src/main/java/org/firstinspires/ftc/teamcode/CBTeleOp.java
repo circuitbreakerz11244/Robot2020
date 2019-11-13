@@ -11,7 +11,7 @@ public class CBTeleOp extends OpMode {
 
     public void initialization() {
 
-        String strVersion = "Nov 12 v1.1";
+        String strVersion = "Nov 12 v1.5";
         util  = new RoboUtil("Manual", telemetry);
 
         boolean IsDriveReady = util.robot.initializeDrive(hardwareMap, false);
@@ -69,9 +69,18 @@ public class CBTeleOp extends OpMode {
         //ARM Move Up or Down Functionality
         double leftY2 = -gamepad2.left_stick_y;
         leftY2 = Range.clip(leftY2, -0.8, 0.8);
-        util.robot.roboArmClaw.armMotor.setPower(leftY2);
         double armMotorPosition = util.robot.roboArmClaw.armMotor.getCurrentPosition();
-        util.updateStatus(" G2.ArmMotor.Y>>" + leftY2 + " Pos " + armMotorPosition);
+        armMotorPosition = -armMotorPosition;
+        if(armMotorPosition < 0 || armMotorPosition > 13700 ) {
+            util.robot.roboArmClaw.armMotor.setPower(0);
+        } else {
+            util.robot.roboArmClaw.armMotor.setPower(leftY2);
+        }
+
+        //IF ARM LOCKED for Out of range.Then use x to release
+        if(gamepad2.x) {
+            util.robot.roboArmClaw.armMotor.setPower(leftY2);
+        }
 
         //Use DPAD Up/Down for Open/Close Claw
         if(gamepad2.dpad_up) {
@@ -80,12 +89,23 @@ public class CBTeleOp extends OpMode {
             util.robot.roboArmClaw.clawClose();
         }
 
+        if(gamepad2.dpad_left) {
+            util.robot.roboArmClaw.pullServoOpen();
+        } else if(gamepad2.dpad_right) {
+            util.robot.roboArmClaw.pullServoOpen();
+        }
+
+
         //Claw Up/Down Motor Moving up and Down
         double rightY2 = -gamepad2.right_stick_y;
         rightY2 = Range.clip(rightY2, -0.01, 0.01);
         util.robot.roboArmClaw.clawMotor.setPower(rightY2);
-        double clawMotorPosition = util.robot.roboArmClaw.armMotor.getCurrentPosition();
-        util.updateStatus(" G2.ClawMotor.X>>" + rightY2+ " Pos " + clawMotorPosition);
+        double clawMotorPosition = util.robot.roboArmClaw.clawMotor.getCurrentPosition();
+        util.updateStatus(" G2.ArmMotor.Y>>" + leftY2 + " APos " + armMotorPosition + " ClawMotor.Y2>>" + rightY2+ " CPos " + clawMotorPosition);
+
+        //TBD
+        //GET Range for clawMotor position
+
 
     }
 }
