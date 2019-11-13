@@ -15,9 +15,17 @@ public interface CBRoboConstants {
     final double ARM_MAX_EXTENSION = 1;
     final double ARM_MIN_EXTENSION = 2;
 
-    //TBD - Compute and fix this value
-    final double SEERVO_CLAW_OPEN  = 0.3;
-    final double SEERVO_CLAW_CLOSE = 0.8;
+    final double CLAW_SERVO_OPEN  = 0.0;
+    final double CLAW_SERVO_CLOSE = 1.0;
+
+    final double PULL_SERVO_OPEN  = 1.0;
+    final double PULL_SERVO_CLOSE = 0.3;
+
+    final double SKYSTONE_SERVO_OPEN = 0.95;
+    final double SKYSTONE_SERVO_CLOSE = 0.35;
+
+    final double CAPSTONE_SERVO_OPEN = 1.0;
+    final double CAPSTONE_SERVO_CLOSE = 0.45;
 
     final double SERVO_INITIAL = 0.0; //move to   0 degree
     final double SERVO_MIDDLE  = 0.5; //move to  90 degrees

@@ -54,8 +54,8 @@ public class CBMainHardware {
         return roboArmClaw.getArmInitializationStatus();
     }
 
-    public boolean initializeArmClaw(HardwareMap hardwareMap, boolean bArmEncoderOn, boolean bClawEncodeOn) {
-        roboArmClaw = new CBRoboArmClaw(hardwareMap, bArmEncoderOn, bClawEncodeOn);
+    public boolean initializeArmClaw(HardwareMap hardwareMap, boolean bArmEncoderOn, boolean bClawEncoderOn) {
+        roboArmClaw = new CBRoboArmClaw(hardwareMap, bArmEncoderOn, bClawEncoderOn);
         return roboArmClaw.getArmInitializationStatus();
     }
 

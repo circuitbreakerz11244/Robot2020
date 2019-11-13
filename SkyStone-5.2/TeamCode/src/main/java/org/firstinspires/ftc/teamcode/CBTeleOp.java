@@ -95,6 +95,11 @@ public class CBTeleOp extends OpMode {
             util.robot.roboArmClaw.pullServoOpen();
         }
 
+        if(gamepad2.a) {
+            util.robot.roboArmClaw.capstoneServoOpen();
+        } else if(gamepad2.b) {
+            util.robot.roboArmClaw.capstoneServoClose();
+        }
 
         //Claw Up/Down Motor Moving up and Down
         double rightY2 = -gamepad2.right_stick_y;
@@ -105,7 +110,6 @@ public class CBTeleOp extends OpMode {
 
         //TBD
         //GET Range for clawMotor position
-
 
     }
 }

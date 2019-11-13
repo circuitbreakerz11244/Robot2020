@@ -20,22 +20,8 @@ public class CBRoboArmClaw  {
     //Servo to grab skystone during autonomous
     public Servo skystoneServo;
 
-    //TBD - Compute and fix this value
-    final double CLAW_SERVO_OPEN  = 0.0;
-    final double CLAW_SERVO_CLOSE = 1.0;
-
-    //TBD - Compute and fix this value
-    final double PULL_SERVO_OPEN  = 1.0;
-    final double PULL_SERVO_CLOSE = 0.3;
-
-    //TBD - test values
-    final double SKYSTONE_SERVO_OPEN = 0.95;
-    final double SKYSTONE_SERVO_CLOSE = 0.35;
-
-    final double SERVO_INITIAL = 0.0; //move to   0 degree
-    final double SERVO_MIDDLE  = 0.5; //move to  90 degrees
-    final double SERVO_FINAL   = 1.0; //move to 180 degrees
-
+    //Servo to hold capStone
+    public Servo capstoneServo;
 
     boolean bArmInitialized = false;
 
@@ -72,9 +58,10 @@ public class CBRoboArmClaw  {
         claw = hardwareMap.servo.get("claw");
         pullServo = hardwareMap.servo.get("pullServo");
         skystoneServo = hardwareMap.servo.get("skystoneServo");
+        capstoneServo = hardwareMap.servo.get("capstoneServo");
 
         //Make sure all Hardware are initialized
-        if(armMotor != null && clawMotor != null && claw != null && pullServo != null && skystoneServo != null) {
+        if(armMotor != null && clawMotor != null && claw != null && pullServo != null && skystoneServo != null && capstoneServo != null) {
             bArmInitialized = true;
         }
 
@@ -132,7 +119,7 @@ public class CBRoboArmClaw  {
     }
 
     public void clawOpen() {
-        claw.setPosition(CLAW_SERVO_OPEN);
+        claw.setPosition(CBRoboConstants.CLAW_SERVO_OPEN);
     }
 
     public void clawOpen(double pDouble) {
@@ -140,7 +127,7 @@ public class CBRoboArmClaw  {
     }
 
     public void clawClose() {
-        claw.setPosition(CLAW_SERVO_CLOSE);
+        claw.setPosition(CBRoboConstants.CLAW_SERVO_CLOSE);
     }
 
     public void clawClose(double pDouble) {
@@ -148,7 +135,7 @@ public class CBRoboArmClaw  {
     }
 
     public void pullServoOpen() {
-        pullServo.setPosition(PULL_SERVO_OPEN);
+        pullServo.setPosition(CBRoboConstants.PULL_SERVO_OPEN);
     }
 
     public void pullServoOpen(double pDouble) {
@@ -156,7 +143,7 @@ public class CBRoboArmClaw  {
     }
 
     public void pullServoClose() {
-        pullServo.setPosition(PULL_SERVO_CLOSE);
+        pullServo.setPosition(CBRoboConstants.PULL_SERVO_CLOSE);
     }
 
     public void pullServoClose(double pDouble) {
@@ -164,7 +151,7 @@ public class CBRoboArmClaw  {
     }
 
     public void skystoneServoOpen() {
-        skystoneServo.setPosition(SKYSTONE_SERVO_OPEN);
+        skystoneServo.setPosition(CBRoboConstants.SKYSTONE_SERVO_OPEN);
     }
 
     public void skystoneServoOpen(double pDouble) {
@@ -172,11 +159,28 @@ public class CBRoboArmClaw  {
     }
 
     public void skystoneServoClose() {
-        skystoneServo.setPosition(SKYSTONE_SERVO_CLOSE);
+        skystoneServo.setPosition(CBRoboConstants.SKYSTONE_SERVO_CLOSE);
     }
 
     public void skystoneServoClose(double pDouble) {
         skystoneServo.setPosition(pDouble);
+    }
+
+    //
+    public void capstoneServoOpen() {
+        capstoneServo.setPosition(CBRoboConstants.CAPSTONE_SERVO_OPEN);
+    }
+
+    public void capstoneServoOpen(double pDouble) {
+        capstoneServo.setPosition(pDouble);
+    }
+
+    public void capstoneServoClose() {
+        capstoneServo.setPosition(CBRoboConstants.CAPSTONE_SERVO_CLOSE);
+    }
+
+    public void capstoneServoClose(double pDouble) {
+        capstoneServo.setPosition(pDouble);
     }
 
     public void servoOpen(Servo servo, double position) {
