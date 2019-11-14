@@ -88,7 +88,7 @@ public class MecanumWheelsYay extends OpMode {
         robot.arm.setPower(-gamepad2.right_stick_y);
         robot.linearSlide.setPower(-gamepad2.left_stick_y);
 
-        robot.arm.setPower(-gamepad2.right_stick_y);
+
 
 
 //open and close claw
@@ -96,7 +96,10 @@ public class MecanumWheelsYay extends OpMode {
             robot.claw.setPosition(robot.CLAW_OPEN);
         } else if (gamepad2.b) {
             robot.claw.setPosition(robot.CLAW_CLOSE);
+        } else if (gamepad2.x) {
+            robot.claw.setPosition(robot.CLAW_SHUT);
         }
+
 
 
 

@@ -23,7 +23,8 @@ public class RobotHardwareCB {
     final double CLAW_INIT = 0.5; // starting position in auton init
     final double CLAW_OPEN = 0.3;
     final double CLAW_CLOSE = 0.8;
-    final double FOUNDATION_DOWN = 0.8;
+    final double CLAW_SHUT = 0.9;
+    final double FOUNDATION_DOWN = 1.0;
     final double FOUNDATION_UP = 0.5;
 
     String lrName = "leftRear";
