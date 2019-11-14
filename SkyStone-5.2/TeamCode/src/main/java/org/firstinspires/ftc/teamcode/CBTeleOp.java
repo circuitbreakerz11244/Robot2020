@@ -11,17 +11,16 @@ public class CBTeleOp extends OpMode {
 
     public void initialization() {
 
-        String strVersion = "Nov 12 v1.5";
         util  = new RoboUtil("Manual", telemetry);
 
         boolean IsDriveReady = util.robot.initializeDrive(hardwareMap, false);
         boolean IsArmReady = util.robot.initializeArmClaw(hardwareMap,true,true);
 
         if(IsDriveReady && IsArmReady) {
-            util.addStatus("Initialized Circuit Breakerz. Ver " + strVersion);
+            util.addStatus("Initialized Circuit Breakerz. Ver " + CBRoboConstants.CB_CODE_VERSION);
             util.updateStatus(">>", " Press Start...");
         } else {
-            util.updateStatus(">>", "Not All Hardware are Initialized. Ver " + strVersion);
+            util.updateStatus(">>", "Not All Hardware are Initialized. Ver " + CBRoboConstants.CB_CODE_VERSION);
         }
 
         util.robot.roboArmClaw.stopArmMotor();
@@ -92,7 +91,7 @@ public class CBTeleOp extends OpMode {
         if(gamepad2.dpad_left) {
             util.robot.roboArmClaw.pullServoOpen();
         } else if(gamepad2.dpad_right) {
-            util.robot.roboArmClaw.pullServoOpen();
+            util.robot.roboArmClaw.pullServoClose();
         }
 
         if(gamepad2.a) {

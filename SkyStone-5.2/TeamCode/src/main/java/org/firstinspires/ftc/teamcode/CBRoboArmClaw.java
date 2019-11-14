@@ -20,7 +20,7 @@ public class CBRoboArmClaw  {
     //Servo to grab skystone during autonomous
     public Servo skystoneServo;
 
-    //Servo to hold capStone
+    //Servo to hold capstone
     public Servo capstoneServo;
 
     boolean bArmInitialized = false;
@@ -74,6 +74,17 @@ public class CBRoboArmClaw  {
         applyClawMotorBrake();
 
         return bArmInitialized;
+    }
+
+    public boolean initializeServosForAuto(HardwareMap hardwareMap) {
+        pullServo = hardwareMap.servo.get("pullServo");
+        skystoneServo = hardwareMap.servo.get("skystoneServo");
+        //Make sure servos are initialized
+        if(pullServo != null && skystoneServo != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void encodeArmMotor(boolean bEncodersOn) {
